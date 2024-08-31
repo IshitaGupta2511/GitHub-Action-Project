@@ -27,20 +27,13 @@ jobs:
       # Step 3: Build optimized Docker image with multi-stage build
       - name: Build Docker image
         run: |
-          docker build --file Dockerfile --tag my-app-image:latest .
-
-       #Configure AWS Credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
-        with:
-          #role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
-          aws-access-key-id: ${{secrets.AWS_Access_Key}}
-          aws-secret-access-key: ${{secrets.AWS_Secret_key}}
-          aws-region: ${{secrets.AWS_Region}}   
+          docker build --file Dockerfile --tag my-app-image:latest .  
 
       # Step 4: Log in to Amazon ECR
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1 
+        with:
+          region: ${{ secrets.AWS_REGION }}
 
        # Step 5: Tag Docker image
       - name: Tag Docker image
