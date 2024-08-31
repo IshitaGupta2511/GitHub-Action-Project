@@ -28,3 +28,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build --file Dockerfile --tag my-app-image:latest .
+
+      # Step 4: Log in to Amazon ECR
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1    
