@@ -34,8 +34,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
         with:
           #role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
-          access_key: ${{secrets.AWS_Access_Key}}
-          secret_key: ${{secrets.AWS_Secret_key}}
+          aws-access-key-id: ${{secrets.AWS_Access_Key}}
+          aws-secret-access-key: ${{secrets.AWS_Secret_key}}
           aws-region: ${{secrets.AWS_Region}}   
 
       # Step 4: Log in to Amazon ECR
