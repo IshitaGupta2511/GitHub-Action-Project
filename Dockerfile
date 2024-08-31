@@ -1,32 +1,32 @@
-# Stage 1: Build the application
-FROM node:18 AS build
+# Stage 1: Build the Java application
+FROM amazonlinux:latest AS builder
 
-# Set the working directory
-WORKDIR /app
+# Install Java and Maven
+RUN yum update -y &&  yum install -y java-11-amazon-corretto-devel.x86_64 maven
 
-# Copy package.json and package-lock.json
-#COPY package*.json ./
+# Copy application source code
+COPY . /mnt/student-ui
 
-# Install dependencies
-RUN npm install
+# Set working directory
+WORKDIR /mnt/student-ui
 
-# Copy the application source code
-COPY . .
+# Package the application
+RUN mvn package
 
-# Build the application
-RUN npm run build
+# Stage 2: Deploy the application with Tomcat
+FROM tomcat:latest AS tomcat
 
-# Stage 2: Set up Nginx to serve the application
+# Copy the WAR file from the build stage to Tomcat's webapps directory
+COPY --from=builder /mnt/student-ui/target/*.war /usr/local/tomcat/webapps/
+
+# Stage 3: Set up Nginx as a reverse proxy
 FROM nginx:alpine
 
-# Copy the build artifacts from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy a custom Nginx configuration file
+# Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80 for the web server
+# Expose port 80 for Nginx
 EXPOSE 80
 
-# Start Nginx
+# Set the entrypoint to start Nginx
 CMD ["nginx", "-g", "daemon off;"]
