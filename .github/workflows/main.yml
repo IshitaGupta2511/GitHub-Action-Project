@@ -33,9 +33,9 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1 
         with:
-          access_key: ${{ secrets.AWS_Access_Key}}
-          secret_key: ${{secrets.AWS_Secret_Key}}
-          region: ${{ secrets.AWS_REGION }}
+              mask-password: false
+              registry-type: private
+              skip-logout: false
 
        # Step 5: Tag Docker image
       - name: Tag Docker image
