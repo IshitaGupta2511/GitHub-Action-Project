@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-west-1
     steps:
        #checkout Code
       - name: Checkout code
@@ -34,7 +36,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1 
         with:
           registry-type: private
-          region: ${{ secrets.AWS_REGION }}
 
        # Step 5: Tag Docker image
       - name: Tag Docker image
