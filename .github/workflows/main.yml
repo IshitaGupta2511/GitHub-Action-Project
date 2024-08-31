@@ -29,7 +29,8 @@ jobs:
       # Step 3: Build optimized Docker image with multi-stage build
       - name: Build Docker image
         run: |
-          docker build --file Dockerfile --tag my-app-image:latest .  
+          docker build --file Dockerfile --tag my-app-image:latest . 
+          aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 551364857603.dkr.ecr.us-west-1.amazonaws.com
 
       # Step 4: Log in to Amazon ECR
       - name: Log in to Amazon ECR
