@@ -12,11 +12,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+       #checkout Code
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Display working directory
-        run: pwd
-
+        
+       # Check Code is chechout or not
       - name: List files
         run: ls -al
+        
+      # Setup Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      # Step 3: Build optimized Docker image with multi-stage build
+      - name: Build Docker image
+        run: |
+          docker build --file Dockerfile --tag my-app-image:latest .
