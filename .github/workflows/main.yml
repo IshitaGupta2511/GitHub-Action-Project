@@ -33,10 +33,11 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1 
         with:
+          registry-type: private
           region: ${{ secrets.AWS_REGION }}
 
        # Step 5: Tag Docker image
       - name: Tag Docker image
         run: |
-          ECR_REPOSITORY_URL=${{ secrets.ECR_Repo_URL }}
+          ECR_REPOSITORY_URL= ${{ secrets.ECR_REPO_URL }}
           docker tag my-app-image:latest $ECR_REPOSITORY_URL/my-app-image:latest  
